@@ -17,9 +17,10 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Header', 'Origin', 'X-Requested-With', 'Content-Type', 'Accept')
     next()
 })
+app.use(cors()); 
+
 app.use(express.json()) //เพื่อใช้ในการแปลงข้อมูล JSON ที่ส่งมาให้อัตโนมัติ
 app.use(express.urlencoded({ extended: true })); // เปิดใช้งาน middleware สำหรับแปลง URL-encoded form data
-app.use(cors());
 
 app.get('/api/product', async (req, res) => {
     try {
@@ -63,7 +64,6 @@ app.post('/insert', async (req, res) => {
 app.delete('/delete/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        console.log(id);
         await Expense.findByIdAndDelete(id);
         res.json({ message: 'Item deleted' });
     } catch (error) {
